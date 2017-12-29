@@ -3,7 +3,7 @@
 	https://www.raspberrypi.org/downloads/raspbian/
 ### 2. Download and install Win32 Disk Imager to mount .img on a SD-card
 	https://sourceforge.net/projects/win32diskimager/files/
-### 3. Plug SD-card in RPI ###
+### 3. Plug the SD-card in the RPI ###
 # Log into your pi via putty or any other terminal supporting SSH #
 ### 1. get IP-adress via Rasbian ###
 #### 1.1 Connect the ethernet cable between the RPI and the computer ####
@@ -12,7 +12,7 @@
 	hostname -I
 
 ### 2. Check IP-adress via windows terminal ###
-####2.1 Get all IP-adresses connected to the interfaces provided by the current interface (0x7)	####
+#### 2.1 Get all IP-adresses connected to the interfaces provided by the current interface (0x7) ####
 	arp -a
 #### 2.2. If both IP-adresses are identical copy the IP-Adress obtained by the arp commando ####
 
@@ -32,15 +32,15 @@
 #### 1.5 Enable checkbox "Allow other network ..." and select "Ethernet" ####
 
 ### 2. Re-establish connection with your RPI ###
-#### 2.1 Get all IP-adresses connected to the interfaces provided by the current interface (0x7)	####
+#### 2.1 Get all IP-adresses connected to the interfaces provided by the current interface (0x7) ####
 	arp -a
 #### 2.2 Copy the IP-adress just under the RPI's IP-adress and reconect to the RPI ####
 	ssh user@new_hostname
 
 ### 3. Internet connection ####
-#### 3.1 Test the internet connection
+#### 3.1 Test the internet connection ####
 	ping 8.8.8.8
-#### 3.2 If data packets are getting transmitted you can exit the program
+#### 3.2 If data packets are getting transmitted you can exit the program ####
 	CTRL + C
 
 
