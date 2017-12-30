@@ -36,7 +36,7 @@
 	Schema van de Pi HAT / shield
 ### 2. Find GPIO registers where the leds are connected to ###
 	D1 = GPIO0
-### 3. Find wich pin of the header GPIO is connected to ###
+### 3. Find which pin of the header GPIO is connected to ###
 	GPIO0 =  pin_11
 ### 4. Get macro of the GPIO0 register in your code ###
 	GPIO0 =  pin_11 = RPI_V2_GPIO_P1_11
