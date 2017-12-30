@@ -1,6 +1,6 @@
 # Download and install bmc2835 library #
 ### 1. Download bmc2835 library from official website ###
-#### 1.1 Go to the directory where you want to dowload the library####
+#### 1.1 Go to the directory where you want to dowload the library ####
 	cd ~/Desktop/labo/bcm2835/
 #### 1.2 Download bcm3835 library #####
 	wget http://www.airspayce.com/mikem/bcm2835/bcm2835-1.52.tar.gz
