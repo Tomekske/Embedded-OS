@@ -4,7 +4,7 @@
 ### 2. Download and install Win32 Disk Imager to mount .img on a SD-card
 	https://sourceforge.net/projects/win32diskimager/files/
 ### 3. Plug the SD-card in the RPI ###
-# Log into your pi via putty or any other terminal supporting SSH #
+# Log into your RPI via putty or any other terminal supporting SSH #
 ### 1. get IP-adress via Rasbian ###
 #### 1.1 Connect the ethernet cable between the RPI and the computer ####
 #### 1.2 Get an external mouse, keyboard and monitor and power up the RPI ####
@@ -19,9 +19,9 @@
 ### 3. Connect via SSH to your RPI ###
 #### 3.1 Open any shell supporting SSH and paste the following command ####
 	ssh user@hostname
-#### 3.2 Edit user and hostname according your own user informarion ####
+#### 3.2 Edit user and hostname according to your own user informarion ####
 	ssh pi@169.254.204.220
-#### 3.3  Enter password and hit enter ####
+#### 3.3 Enter password and hit enter ####
 
 # Internet acces on RPI #
 ### 1. Enable shared internet ###

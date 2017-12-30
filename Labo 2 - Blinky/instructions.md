@@ -31,6 +31,16 @@
 #### 1.4 Double click the dragged file in the 'destination' folder and you're ready to develop
 #### 1.5 Make sure to drag back the most recent version of  the file back to the source folder on the windows machine ####
 
+# Blinky C-program #
+### 1. Download PI-hat datashield which you can find on trac ###
+	Schema van de Pi HAT / shield
+### 2. Find GPIO registers where the leds are connected to ###
+	D1 = GPIO0
+### 3. Find wich pin of the header GPIO is connected to ###
+	GPIO0 =  pin_11
+### 4. Get macro of the GPIO0 register in your code ###
+	GPIO0 =  pin_11 = RPI_V2_GPIO_P1_11
+
 # Compile and run C-program #
 #### 1.1 Run makefile #####
 	make
