@@ -40,13 +40,17 @@
 	GPIO0 =  pin_11
 ### 4. Get macro of the GPIO0 register in your code ###
 	GPIO0 =  pin_11 = RPI_V2_GPIO_P1_11
+### 5. GPIO library documentation  ###
+	http://www.airspayce.com/mikem/bcm2835/group__gpio.html
+### 6. Constants library definitions ###
+	http://www.airspayce.com/mikem/bcm2835/group__constants.html
 
 # Compile and run C-program #
-#### 1.1 Run makefile #####
+#### 1. Run makefile #####
 	make
-#### 1.2 Run executable ####
+#### 2. Run executable ####
 	sudo ./blinky
-#### 1.3 Exit program ####
+#### 3. Exit program ####
 	CTRL + C
 
 
