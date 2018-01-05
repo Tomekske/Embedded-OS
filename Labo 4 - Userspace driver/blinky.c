@@ -6,15 +6,19 @@
 #include <errno.h>
 #include <fcntl.h> //contains constructs that refer to file control, e.g. opening a file, retrieving and changing the permissions of file, locking a file for edit, etc.
 #include <time.h>
+#include <signal.h>
 
 uint32_t littleToBigEndian(uint32_t adress);
 void delay(long miliseconds);
+void singhandler(int signum); 
+
+volatile uint8_t g_usStop = 0;
 
 //pagine 90 in datasheet
 #define GPFSEL0	0x200000	// GPIO function select registers
 #define GPSET0	0x20001C	//GPIO pin output set registers
 #define GPCLR0	0x200028	//GPIO pin output clear registers
-#define GPLEV0	0x200034	//GPIO pin level registers -> returns value of the pin
+#define GPLEV0 0x200034
 
 #define ADRESS_SIZE 4
 #define ADRESS_NUMBER_ELEMENTS 1
@@ -35,52 +39,56 @@ int main()
 	uint32_t arm_adress;
 	uint32_t size;
 
-  //reading MMU adressen
+	//reading MMU adressen
 	fread(&vc_adress,ADRESS_SIZE,ADRESS_NUMBER_ELEMENTS,fp_ranges); //reading blocks of 8bit 32/4 = 8
 	fread(&arm_adress,ADRESS_SIZE,ADRESS_NUMBER_ELEMENTS,fp_ranges);
 	fread(&size,ADRESS_SIZE,ADRESS_NUMBER_ELEMENTS,fp_ranges);
 	fclose(fp_ranges);
 
-  //Swapping LSB to MSB
+	//Swapping LSB to MSB
 	vc_adress = littleToBigEndian(vc_adress);
 	arm_adress = littleToBigEndian(arm_adress);
 	size = littleToBigEndian(size);
 
-	printf("Videocoreadress 0x%x\n",vc_adress);
-	printf("Armadress 0x%x\n",arm_adress);
+	printf("Videocore adress 0x%x\n",vc_adress);
+	printf("Arm adress 0x%x\n",arm_adress);
 	printf("Size 0x%x\n",size);
 
+	//Accessing systems physocal memory 
 	if ((memfd = open("/dev/mem", O_RDWR|O_SYNC) ) < 0) 
 	{
 		printf("can't open /dev/mem \n"); 
 		exit(-1);
 	}
 
-	uint32_t* map = mmap(NULL, size,(PROT_READ | PROT_WRITE), MAP_SHARED, memfd, arm_adress);
+	uint32_t* map = mmap(NULL, size,(PROT_READ | PROT_WRITE), MAP_SHARED, memfd, arm_adress); //map adresses in MMU, accesible via virtual adress
+
 	if (map == MAP_FAILED)
 	{
 		printf("Mmap failed");
 		return -1;
 	}
+  uint32_t led = 0x1 << 17;
 
-    uint32_t Leds = 0x1 << 17;
+  uint32_t *setGPIO = map + GPFSEL0/4;
+  uint32_t *setPin = map + GPSET0/4;
+  uint32_t *clearPin = map + GPCLR0/4;
 
-    uint32_t *setGPIO = map + GPFSEL0/4;
-    uint32_t *setPins = map + GPSET0/4;
-    uint32_t *clearPins = map + GPCLR0/4;
-    uint32_t *checkPins = map + GPLEV0/4;
+  __sync_synchronize();
 
-    __sync_synchronize();
+  signal(SIGINT,singhandler); //calback functie
     
-    while(1)
-    {
-      *setPins = Leds;
-  		delay(125);
-      *clearPins = Leds;
-  		delay(125);
-    }
+	while(g_usStop == 0)
+	{
+		*setPin = led;
+		delay(125);
+		*clearPin = led;
+		delay(125);
 
-	close(memfd); //No need to keep mem_fd open after mmap
+    signal(SIGINT,singhandler); //calback functie
+	}
+
+	close(memfd);
    
 	return 0;
 }
@@ -124,4 +132,9 @@ void delay(long miliseconds)
    }   
 
    nanosleep(&req , &rem);
+}
+
+void singhandler(int signum) 
+{
+  g_usStop = 1;
 }

@@ -1,14 +1,24 @@
 #Variablen declareren
-CFILE=*.c
-OBJNAME=temp
+CFILE=$(notdir  ../$(wildcard *.c))	#get filename
+OBJNAME=$(basename $(CFILE)) #get basename of file
 CC=gcc
 CFLAGS=-wall	#turns warning flaggs on
 CVER=-std=c11
 LIBNAME=bcm2835
 OUT:=-o $(OBJNAME)
 LIB:=-l $(LIBNAME)
+ARG=-s
 
-all:
+all: compile run
+
+compile:
 	$(CC) $(CVER) $($CFLAGS) $(CFILE) $(OUT) $(LIB)
+	@echo Compiled program $(CFILE)
+
+run:
+	@echo Running program $(OBJNAME)
+	sudo ./$(OBJNAME) $(ARG)
+
 clean:
 	rm -rf *o $(OBJNAME)
+	@echo Removed $(OBJNAME) 

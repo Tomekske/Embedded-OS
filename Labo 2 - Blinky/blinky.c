@@ -1,5 +1,10 @@
 #include <bcm2835.h>
 #include <stdio.h>
+#include <signal.h>
+
+void singhandler(int signum); 
+
+volatile uint8_t g_usStop = 0;
 
 #define LEDS 8
 
@@ -7,7 +12,7 @@ int main(int argc, char **argv)
 {
 	if(!bcm2835_init())
 	{
-	    return 1;
+		return 1;
 	}
 
 	//initialiseren en declareren van een array waarin de registers van de ledjes worden opgeslagen
@@ -19,7 +24,7 @@ int main(int argc, char **argv)
 	                RPI_V2_GPIO_P1_18,
 	                RPI_V2_GPIO_P1_08,
 	                RPI_V2_GPIO_P1_07
-	              };
+				};
 
 	for(int i = 0; i < LEDS; i++)
 	{
@@ -27,7 +32,9 @@ int main(int argc, char **argv)
 		bcm2835_gpio_write(leds[i], LOW); //ervoor zorgen dat ledjes uitstaan voor dat de while(1) wordt opgeroepen
 	}
 
-	while(1)
+	signal(SIGINT,singhandler); //calback functie
+
+	while(g_usStop == 0)
 	{
 		for(int i = 0;i < LEDS; i++)
 			bcm2835_gpio_write(leds[i], HIGH); //leds aanzetten
@@ -36,6 +43,14 @@ int main(int argc, char **argv)
 		for(int i = 0;i < LEDS; i++)
 			bcm2835_gpio_write(leds[i], LOW); //leds aanzetten
 		bcm2835_delay(350); //delay
+
+		signal(SIGINT,singhandler); //fetchen of dat 'ctrl + c' ingedrukt is zodat we programma netjes kunnen afsluiten
+
 	}
 	return 0;
+}
+
+void singhandler(int signum) 
+{
+	g_usStop = 1;
 }
