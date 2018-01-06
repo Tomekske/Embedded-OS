@@ -11,13 +11,12 @@ LIB:=-l $(LIBNAME)
 all: compile run
 
 compile:
-	$(CC) $(CVER) $($CFLAGS) $(CFILE) $(OUT) $(LIB)
+	$(shell $(CC) $(CVER) $($CFLAGS) $(CFILE) $(OUT) $(LIB))
 	@echo Compiled program $(CFILE)
 
 run:
 	@echo Running program $(OBJNAME)
 	sudo ./$(OBJNAME)
-
 clean:
-	rm -rf *o $(OBJNAME)
+	$(shell rm -rf *o $(OBJNAME))
 	@echo Removed $(OBJNAME) 
