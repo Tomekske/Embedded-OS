@@ -19,6 +19,7 @@ volatile uint8_t g_usStop = 0;
 #define GPSET0	0x20001C	//GPIO pin output set registers
 #define GPCLR0	0x200028	//GPIO pin output clear registers
 #define GPLEV0 0x200034
+#define GPFSEL1 0x200004
 
 #define ADRESS_SIZE 4
 #define ADRESS_NUMBER_ELEMENTS 1
@@ -68,12 +69,15 @@ int main()
 		printf("Mmap failed");
 		return -1;
 	}
+
+  uint32_t setOutput = 0x1 << 21;
   uint32_t led = 0x1 << 17;
 
-  uint32_t *setGPIO = map + GPFSEL0/4;
+  uint32_t *setGPIO = map + GPFSEL1/4;
   uint32_t *setPin = map + GPSET0/4;
   uint32_t *clearPin = map + GPCLR0/4;
 
+  *setGPIO = setOutput;
   __sync_synchronize();
 
   signal(SIGINT,singhandler); //calback functie
