@@ -1,0 +1,6 @@
+Stap 1:
+	De taken worden in volgorde van executie uitgevoerd, dus taak 1 wordt eerst uitgevoerd dan taak 2, taak 3, taak 4 en dan pas taak 5
+Stap 2:
+	De verwachte output is een intiger getal, maar je moet het adress megeven en geen constante
+Stap 3:
+	Ik had verwacht dat de taak met de hoogste prioriteit als eerste zou worden uitgevoerd, dit was dus niet het geval. De taken werden uitgevoerd in volgorde van executie
